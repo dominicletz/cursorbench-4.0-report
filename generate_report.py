@@ -21,8 +21,17 @@ OUT = Path(__file__).resolve().parent
 #          → for our scope (24.3..57.8) → 20..60, ticks every 5
 X_MAX = 18
 X_TICKS = [0, 3, 6, 9, 12, 15, 18]
-Y_MIN, Y_MAX = 20, 60
-Y_TICKS = list(range(Y_MIN, Y_MAX + 1, 5))
+
+
+def score_axis(scores):
+    """Match official getChartScoreAxis: min floor(min(20,minScore)/5)*5, max floor(max/5)*5+5."""
+    import math
+    if not scores:
+        return 20, 60, list(range(20, 61, 5))
+    y_max = 5 * math.floor(max(scores) / 5) + 5
+    y_min = 5 * math.floor(min(20, min(scores)) / 5)
+    ticks = list(range(y_min, y_max + 1, 5))
+    return y_min, y_max, ticks
 
 SERIES_COLORS = {
     "Opus 5.5": "#F59E0B",
@@ -51,6 +60,8 @@ LABEL_MODELS = {
     "Muse Spark 1.3 Minimal",
     "GPT-6 Astra Max",
     "GPT-6 Luna Max",
+    "GPT-6 Luna Medium",
+    "GPT-6 Luna Low",
 }
 
 LABEL_OFFSETS = {
@@ -68,7 +79,9 @@ LABEL_OFFSETS = {
     "Muse Spark 1.3 High": (-120, -12),
     "Muse Spark 1.3 Minimal": (10, -12),
     "GPT-6 Astra Max": (12, 14),
-    "GPT-6 Luna Max": (10, -16),
+    "GPT-6 Luna Max": (12, 10),
+    "GPT-6 Luna Medium": (10, -14),
+    "GPT-6 Luna Low": (10, -12),
 }
 
 
@@ -110,12 +123,14 @@ def make_scatter(models):
     # Connect effort tiers within each series (Low → … → Max by effort order)
     by_series = defaultdict(list)
     for m in models:
-        if not m["estimated"]:
-            by_series[m["series"]].append(m)
+        by_series[m["series"]].append(m)
     for series, pts in by_series.items():
+        if len(pts) < 2:
+            continue
         pts = sorted(pts, key=effort_key)
         xs = [p["cost"] for p in pts]
         ys = [p["score"] for p in pts]
+        estimated = all(p["estimated"] for p in pts)
         ax.plot(
             xs, ys,
             color=SERIES_COLORS[series],
@@ -123,6 +138,7 @@ def make_scatter(models):
             alpha=0.85,
             zorder=3,
             solid_capstyle="round",
+            linestyle="--" if estimated else "-",
         )
 
     for m in models:
@@ -158,12 +174,13 @@ def make_scatter(models):
                 alpha=0.95,
             )
 
-    # Official scales: linear cost 0–18, score 20–60
+    y_min, y_max, y_ticks = score_axis([m["score"] for m in models])
+    # Official scales: linear cost 0–18; score domain from official getChartScoreAxis
     ax.set_xlim(0, X_MAX)
-    ax.set_ylim(Y_MIN, Y_MAX)
+    ax.set_ylim(y_min, y_max)
     ax.set_xticks(X_TICKS)
     ax.set_xticklabels([f"${t}" if t else "$0" for t in X_TICKS])
-    ax.set_yticks(Y_TICKS)
+    ax.set_yticks(y_ticks)
     ax.set_xlabel("Cost / task", fontsize=11, labelpad=10)
     ax.set_ylabel("Score", fontsize=11, labelpad=10)
     ax.set_title(
@@ -176,7 +193,7 @@ def make_scatter(models):
     fig.text(
         0.5,
         0.955,
-        "Scales match official cursor.com/cursorbench (linear cost $0–$18 · score 20–60%)  ·  Lines connect effort tiers",
+        f"Scales match official cursor.com/cursorbench (linear cost $0–${X_MAX} · score {y_min}–{y_max}%)  ·  GPT-6 Luna ≈ Luna 5.6 @ ½ cost",
         ha="center",
         va="top",
         fontsize=9,
@@ -229,7 +246,8 @@ def make_scatter(models):
             ("Fable 5.1", SERIES_COLORS["Fable 5.1"]),
             ("Grok 4.7", SERIES_COLORS["Grok 4.7"]),
             ("Muse Spark 1.3", SERIES_COLORS["Muse Spark 1.3"]),
-            ("GPT-6 est.", SERIES_COLORS["GPT-6 Astra"]),
+            ("GPT-6 Astra est.", SERIES_COLORS["GPT-6 Astra"]),
+            ("GPT-6 Luna ≈5.6@½$", SERIES_COLORS["GPT-6 Luna"]),
         ]
     ]
     leg = ax.legend(
@@ -287,9 +305,9 @@ def make_bar(models):
     ax.set_yticks(y_pos)
     ax.set_yticklabels(labels, fontsize=8.8)
     ax.invert_yaxis()
-    # Match official score domain end (60) for bar width too
-    ax.set_xlim(0, Y_MAX)
-    ax.set_xticks(Y_TICKS)
+    _, y_max, y_ticks = score_axis([m["score"] for m in models])
+    ax.set_xlim(0, y_max)
+    ax.set_xticks(y_ticks)
     ax.set_xlabel("Score (%)", fontsize=11, labelpad=8)
     ax.set_title(
         "CursorBench 4.0 — Top configs by score",
@@ -330,7 +348,8 @@ def make_bar(models):
             ("Fable 5.1", SERIES_COLORS["Fable 5.1"]),
             ("Grok 4.7", SERIES_COLORS["Grok 4.7"]),
             ("Muse Spark 1.3", SERIES_COLORS["Muse Spark 1.3"]),
-            ("GPT-6 est.", SERIES_COLORS["GPT-6 Astra"]),
+            ("GPT-6 Astra est.", SERIES_COLORS["GPT-6 Astra"]),
+            ("GPT-6 Luna ≈5.6@½$", SERIES_COLORS["GPT-6 Luna"]),
         ]
     ]
     leg = ax.legend(
@@ -407,15 +426,17 @@ td.muted{{color:#9CA3AF;font-size:.85rem}}
 footer{{color:#6B7280;font-size:.8rem;margin-top:24px}}
 </style></head><body>
 <h1>CursorBench 4.0 — Score vs Cost</h1>
-<p class="sub">September 2026 · Axes match official cursor.com/cursorbench (linear cost $0–$18 · score 20–60%) · Lines connect Low→…→Max · GPT-6 Astra &amp; Luna estimated</p>
+<p class="sub">September 2026 · Axes match official cursor.com/cursorbench · Lines connect Low→…→Max · GPT-6 Luna ≈ Luna 5.6 scores @ ½ cost · Astra estimated</p>
 <div class="note"><strong>Important:</strong> Cursor has <em>not</em> published GPT-6 CursorBench scores.
-GPT-6 Astra Max (~54% / ~$8.50) and GPT-6 Luna Max (~31% / ~$0.22) are unofficial rough estimates from FrontierCode 1.1 and Terminal-Bench 4.0 relative positioning.</div>
+GPT-6 Astra Max (~54% / ~$8.50) is a rough FC/TB estimate.
+GPT-6 Luna effort tiers reuse official <em>GPT-5.6 Luna</em> CursorBench scores with costs halved as a stand-in.</div>
 <div class="swatches">
 <span><span class="dot" style="background:#F59E0B"></span>Opus 5.5</span>
 <span><span class="dot" style="background:#FB923C"></span>Fable 5.1</span>
 <span><span class="dot" style="background:#3B82F6"></span>Grok 4.7</span>
 <span><span class="dot" style="background:#A855F7"></span>Muse Spark 1.3</span>
-<span><span class="dot" style="border:2px dashed #22C55E;background:transparent"></span>GPT-6 estimated</span>
+<span><span class="dot" style="border:2px dashed #22C55E;background:transparent"></span>GPT-6 Astra est.</span>
+<span><span class="dot" style="background:#22C55E"></span>GPT-6 Luna ≈ Luna 5.6 @ ½ cost</span>
 </div>
 <div class="card"><img alt="Score vs cost" src="data:image/png;base64,{scatter_b64}"/></div>
 <div class="card">
@@ -432,7 +453,7 @@ GPT-6 Astra Max (~54% / ~$8.50) and GPT-6 Luna Max (~31% / ~$0.22) are unofficia
 <tbody>
 {''.join(table_rows)}
 </tbody></table></div>
-<footer>Official scores from cursor.com/cursorbench (CursorBench 4.0, Sep 2026). Chart axes matched to the official visual: linear cost $0–$18, score 20–60%. Estimated rows marked with *. Not affiliated with Cursor.</footer>
+<footer>Official scores from cursor.com/cursorbench (CursorBench 4.0, Sep 2026). Chart axes matched to the official visual (linear cost $0–$18; score domain via official formula). GPT-6 Luna ≈ Luna 5.6 @ ½ cost. Estimated rows marked with *. Not affiliated with Cursor.</footer>
 </body></html>
 """
     path = OUT / "index.html"

@@ -1,8 +1,8 @@
 {
   "benchmark": "CursorBench 4.0",
   "date": "2026-09",
-  "scope": "Opus 5.5, Fable 5.1, Grok 4.7, Muse Spark 1.3 + GPT-6 Astra/Luna estimates",
-  "note": "GPT-6 Astra/Luna are ROUGH ESTIMATES. Cursor has not published GPT-6 CursorBench scores. Lines connect effort tiers within each series.",
+  "scope": "Opus 5.5, Fable 5.1, Grok 4.7, Muse Spark 1.3 + GPT-6 Astra estimate + GPT-6 Luna (\u2248 Luna 5.6 @ half cost)",
+  "note": "GPT-6 Astra Max is a rough FC/TB-based estimate. GPT-6 Luna effort tiers use official GPT-5.6 Luna CursorBench scores with costs halved. Cursor has not published GPT-6 CursorBench scores. Lines connect effort tiers within each series.",
   "points": [
     {
       "model": "Opus 5.5 Max",
@@ -175,12 +175,48 @@
     },
     {
       "model": "GPT-6 Luna Max",
-      "score": 31.0,
+      "score": 35.9,
+      "cost": 0.515,
+      "family": "OpenAI",
+      "series": "GPT-6 Luna",
+      "estimated": true,
+      "rationale": "Approximation: GPT-5.6 Luna CursorBench score, cost halved as GPT-6 Luna stand-in."
+    },
+    {
+      "model": "GPT-6 Luna Extra High",
+      "score": 33.0,
       "cost": 0.22,
       "family": "OpenAI",
       "series": "GPT-6 Luna",
       "estimated": true,
-      "rationale": "FC max 42.4% but TB only 12.6% (weak long tool loops); CB long-horizon \u2192 below GPT-5.6 Luna Max 35.9%."
+      "rationale": "Approximation: GPT-5.6 Luna CursorBench score, cost halved as GPT-6 Luna stand-in."
+    },
+    {
+      "model": "GPT-6 Luna High",
+      "score": 29.4,
+      "cost": 0.125,
+      "family": "OpenAI",
+      "series": "GPT-6 Luna",
+      "estimated": true,
+      "rationale": "Approximation: GPT-5.6 Luna CursorBench score, cost halved as GPT-6 Luna stand-in."
+    },
+    {
+      "model": "GPT-6 Luna Medium",
+      "score": 22.2,
+      "cost": 0.04,
+      "family": "OpenAI",
+      "series": "GPT-6 Luna",
+      "estimated": true,
+      "rationale": "Approximation: GPT-5.6 Luna CursorBench score, cost halved as GPT-6 Luna stand-in."
+    },
+    {
+      "model": "GPT-6 Luna Low",
+      "score": 16.0,
+      "cost": 0.015,
+      "family": "OpenAI",
+      "series": "GPT-6 Luna",
+      "estimated": true,
+      "rationale": "Approximation: GPT-5.6 Luna CursorBench score, cost halved as GPT-6 Luna stand-in."
     }
   ]
 }
