@@ -21,6 +21,7 @@ Visual report of [CursorBench 4.0](https://cursor.com/cursorbench) focused on:
 | [cursorbench-4.0-score-vs-cost.png](cursorbench-4.0-score-vs-cost.png) | Score vs cost scatter (log cost) |
 | [cursorbench-4.0-top-bar.png](cursorbench-4.0-top-bar.png) | Horizontal ranking by score |
 | [data.json](data.json) | Plotted points with `estimated` flags |
+| [throughput.json](throughput.json) | Family average output tokens/s (Artificial Analysis) |
 
 ## Official headline scores
 
@@ -39,3 +40,7 @@ Visual report of [CursorBench 4.0](https://cursor.com/cursorbench) focused on:
 | GPT-6 Luna Max | ~31% | ~$0.22 |
 
 Official data from [cursor.com/cursorbench](https://cursor.com/cursorbench) (Sep 2026). Not affiliated with Cursor.
+
+## Live page
+
+https://dominicletz.github.io/cursorbench-4.0-report/

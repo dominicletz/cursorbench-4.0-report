@@ -1,0 +1,36 @@
+{
+  "source": "Artificial Analysis output speed",
+  "units": "tokens/s",
+  "rows": [
+    {
+      "family": "Opus 5.5",
+      "tokens_per_sec": null,
+      "note": "AA not yet measured"
+    },
+    {
+      "family": "Fable 5.1",
+      "tokens_per_sec": 65,
+      "note": "AA (max)"
+    },
+    {
+      "family": "Grok 4.7",
+      "tokens_per_sec": 39,
+      "note": "AA (xhigh)"
+    },
+    {
+      "family": "Muse Spark 1.3",
+      "tokens_per_sec": 219,
+      "note": "AA (xhigh)"
+    },
+    {
+      "family": "GPT-6 Astra",
+      "tokens_per_sec": 61,
+      "note": "AA (max)"
+    },
+    {
+      "family": "GPT-6 Luna",
+      "tokens_per_sec": 154,
+      "note": "AA-derived (max)*"
+    }
+  ]
+}
