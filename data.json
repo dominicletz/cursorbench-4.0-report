@@ -2,13 +2,14 @@
   "benchmark": "CursorBench 4.0",
   "date": "2026-09",
   "scope": "Opus 5.5, Fable 5.1, Grok 4.7, Muse Spark 1.3 + GPT-6 Astra/Luna estimates",
-  "note": "GPT-6 Astra/Luna are ROUGH ESTIMATES. Cursor has not published GPT-6 CursorBench scores.",
+  "note": "GPT-6 Astra/Luna are ROUGH ESTIMATES. Cursor has not published GPT-6 CursorBench scores. Lines connect effort tiers within each series.",
   "points": [
     {
       "model": "Opus 5.5 Max",
       "score": 57.8,
       "cost": 13.43,
       "family": "Claude",
+      "series": "Opus 5.5",
       "estimated": false
     },
     {
@@ -16,6 +17,7 @@
       "score": 56.0,
       "cost": 6.98,
       "family": "Claude",
+      "series": "Opus 5.5",
       "estimated": false
     },
     {
@@ -23,6 +25,7 @@
       "score": 56.0,
       "cost": 3.97,
       "family": "Claude",
+      "series": "Opus 5.5",
       "estimated": false
     },
     {
@@ -30,6 +33,7 @@
       "score": 52.5,
       "cost": 2.91,
       "family": "Claude",
+      "series": "Opus 5.5",
       "estimated": false
     },
     {
@@ -37,6 +41,7 @@
       "score": 43.7,
       "cost": 1.17,
       "family": "Claude",
+      "series": "Opus 5.5",
       "estimated": false
     },
     {
@@ -44,6 +49,7 @@
       "score": 51.8,
       "cost": 17.28,
       "family": "Claude",
+      "series": "Fable 5.1",
       "estimated": false
     },
     {
@@ -51,6 +57,7 @@
       "score": 51.6,
       "cost": 13.01,
       "family": "Claude",
+      "series": "Fable 5.1",
       "estimated": false
     },
     {
@@ -58,6 +65,7 @@
       "score": 49.2,
       "cost": 9.08,
       "family": "Claude",
+      "series": "Fable 5.1",
       "estimated": false
     },
     {
@@ -65,6 +73,7 @@
       "score": 46.8,
       "cost": 7.05,
       "family": "Claude",
+      "series": "Fable 5.1",
       "estimated": false
     },
     {
@@ -72,6 +81,7 @@
       "score": 45.1,
       "cost": 5.44,
       "family": "Claude",
+      "series": "Fable 5.1",
       "estimated": false
     },
     {
@@ -79,6 +89,7 @@
       "score": 46.3,
       "cost": 6.01,
       "family": "xAI",
+      "series": "Grok 4.7",
       "estimated": false
     },
     {
@@ -86,6 +97,7 @@
       "score": 43.9,
       "cost": 4.69,
       "family": "xAI",
+      "series": "Grok 4.7",
       "estimated": false
     },
     {
@@ -93,6 +105,7 @@
       "score": 41.6,
       "cost": 3.49,
       "family": "xAI",
+      "series": "Grok 4.7",
       "estimated": false
     },
     {
@@ -100,6 +113,7 @@
       "score": 33.1,
       "cost": 1.58,
       "family": "xAI",
+      "series": "Grok 4.7",
       "estimated": false
     },
     {
@@ -107,6 +121,7 @@
       "score": 41.6,
       "cost": 2.64,
       "family": "Meta",
+      "series": "Muse Spark 1.3",
       "estimated": false
     },
     {
@@ -114,6 +129,7 @@
       "score": 37.5,
       "cost": 2.1,
       "family": "Meta",
+      "series": "Muse Spark 1.3",
       "estimated": false
     },
     {
@@ -121,6 +137,7 @@
       "score": 33.4,
       "cost": 1.66,
       "family": "Meta",
+      "series": "Muse Spark 1.3",
       "estimated": false
     },
     {
@@ -128,6 +145,7 @@
       "score": 32.6,
       "cost": 1.49,
       "family": "Meta",
+      "series": "Muse Spark 1.3",
       "estimated": false
     },
     {
@@ -135,6 +153,7 @@
       "score": 29.3,
       "cost": 0.93,
       "family": "Meta",
+      "series": "Muse Spark 1.3",
       "estimated": false
     },
     {
@@ -142,6 +161,7 @@
       "score": 24.3,
       "cost": 0.56,
       "family": "Meta",
+      "series": "Muse Spark 1.3",
       "estimated": false
     },
     {
@@ -149,6 +169,7 @@
       "score": 54.0,
       "cost": 8.5,
       "family": "OpenAI",
+      "series": "GPT-6 Astra",
       "estimated": true,
       "rationale": "FC max 53.3% near Opus 5.5; TB ~ties Opus; CB projected ~54% between Fable Max and Opus Max."
     },
@@ -157,6 +178,7 @@
       "score": 31.0,
       "cost": 0.22,
       "family": "OpenAI",
+      "series": "GPT-6 Luna",
       "estimated": true,
       "rationale": "FC max 42.4% but TB only 12.6% (weak long tool loops); CB long-horizon \u2192 below GPT-5.6 Luna Max 35.9%."
     }
